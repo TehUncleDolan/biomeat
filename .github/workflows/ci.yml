@@ -51,6 +51,4 @@ jobs:
           components: clippy
           override: true
       - name: Check lint errors
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: cargo clippy --all-targets
