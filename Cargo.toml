@@ -1,0 +1,30 @@
+[package]
+name = "biomeat"
+description = "Download manga from Mangadex"
+version = "0.1.0"
+authors = ["Teh Uncle Dolan"]
+license = "BSD-3-Clause"
+edition = "2021"
+repository = "https://github.com/TehUncleDolan/biomeat"
+readme = "README.md"
+keywords = ["manga", "Mangadex"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+anyhow = { version = "1.0", default-features = false, features = ["std"] }
+clap = { version = "4.0", default-features = false, features = ["derive", "help", "std", "suggestions", "usage"] }
+futures = { version = "0.3", default-features = false }
+governor = { version = "0.5", default-features = false, features = ["std"] }
+indicatif = { version = "0.17", default-features = false }
+mangadex-api-rust = { version = "2.0.0-rc.1", default-features = false }
+mangadex-api-types-rust = { version = "0.1", default-features = false }
+once_cell = { version = "1.0", default-features = false }
+regex = { version = "1.0", default-features = false, features = ["std"] }
+reqwest = { version = "0.11", default-features = false, features = ["default-tls"] }
+termcolor = { version = "1.0", default-features = false }
+tokio = { version = "1.0", default-features = false, features = ["macros", "rt-multi-thread"] }
+uuid = { version = "1.0", default-features = false, features = ["std", "v4"] }
+url = { version = "2.0", default-features = false, features = ["serde"] }
+
+[profile.release]
+strip = true
