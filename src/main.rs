@@ -126,9 +126,11 @@ async fn download_pages(
     chapter
         .download_pages(client.clone(), destination)
         .await?
-        .try_for_each(|_| async {
-            progress_bar.inc(1);
-            Ok(())
+        .try_for_each(|_| {
+            async {
+                progress_bar.inc(1);
+                Ok(())
+            }
         })
         .await?;
 

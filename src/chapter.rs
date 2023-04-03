@@ -49,17 +49,27 @@ impl Chapter {
 
             let old_len = chapters.len();
 
-            chapters.extend(response.data.into_iter().map(|object| Self {
-                title: object.attributes.title,
-                id: object.id,
-                volume_id:
-                    object.attributes.volume.unwrap_or_else(|| "".to_owned()),
-                number: format!(
-                    "{:0>3}",
-                    object.attributes.chapter.expect("missing chapter number")
-                ),
-                page_count:
-                    object.attributes.pages.try_into().expect("too many pages"),
+            chapters.extend(response.data.into_iter().map(|object| {
+                Self {
+                    title: object.attributes.title,
+                    id: object.id,
+                    volume_id: object
+                        .attributes
+                        .volume
+                        .unwrap_or_else(|| "".to_owned()),
+                    number: format!(
+                        "{:0>3}",
+                        object
+                            .attributes
+                            .chapter
+                            .expect("missing chapter number")
+                    ),
+                    page_count: object
+                        .attributes
+                        .pages
+                        .try_into()
+                        .expect("too many pages"),
+                }
             }));
             chapters.truncate(total);
 
