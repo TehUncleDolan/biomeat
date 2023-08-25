@@ -16,8 +16,12 @@ pub struct Client {
 
 impl Default for Client {
     fn default() -> Self {
+        let client = reqwest::Client::builder()
+            .user_agent("biomeat/0.1.0")
+            .build()
+            .expect("valid HTTP client");
         Self {
-            client: MangaDexClient::default(),
+            client: MangaDexClient::new(client),
             http_client: reqwest::Client::new(),
             // See https://api.mangadex.org/docs/rate-limits/
             limiter: Arc::new(RateLimiter::direct(Quota::per_second(
