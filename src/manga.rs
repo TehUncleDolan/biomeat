@@ -15,7 +15,7 @@ impl Manga {
     pub async fn new(
         client: &Client,
         lang: Language,
-        manga_id: &Uuid,
+        manga_id: Uuid,
         offset: u16,
     ) -> AnyResult<Self> {
         let manga = client

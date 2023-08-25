@@ -57,7 +57,7 @@ async fn main() -> AnyResult<()> {
     let opts = Opts::parse();
 
     let client = Client::default();
-    let manga = Manga::new(&client, opts.lang, &opts.manga, opts.start)
+    let manga = Manga::new(&client, opts.lang, opts.manga, opts.start)
         .await
         .context("get manga")?;
 
@@ -126,11 +126,9 @@ async fn download_pages(
     chapter
         .download_pages(client.clone(), destination)
         .await?
-        .try_for_each(|_| {
-            async {
-                progress_bar.inc(1);
-                Ok(())
-            }
+        .try_for_each(|_| async {
+            progress_bar.inc(1);
+            Ok(())
         })
         .await?;
 

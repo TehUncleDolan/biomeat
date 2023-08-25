@@ -24,7 +24,7 @@ impl Chapter {
     pub async fn list(
         client: &Client,
         lang: Language,
-        manga_id: &Uuid,
+        manga_id: Uuid,
         mut offset: u16,
     ) -> AnyResult<Vec<Self>> {
         let mut chapters = Vec::new();
@@ -49,27 +49,17 @@ impl Chapter {
 
             let old_len = chapters.len();
 
-            chapters.extend(response.data.into_iter().map(|object| {
-                Self {
-                    title: object.attributes.title,
-                    id: object.id,
-                    volume_id: object
-                        .attributes
-                        .volume
-                        .unwrap_or_else(|| "".to_owned()),
-                    number: format!(
-                        "{:0>3}",
-                        object
-                            .attributes
-                            .chapter
-                            .expect("missing chapter number")
-                    ),
-                    page_count: object
-                        .attributes
-                        .pages
-                        .try_into()
-                        .expect("too many pages"),
-                }
+            chapters.extend(response.data.into_iter().map(|object| Self {
+                title: object.attributes.title,
+                id: object.id,
+                volume_id:
+                    object.attributes.volume.unwrap_or_else(|| "".to_owned()),
+                number: format!(
+                    "{:0>3}",
+                    object.attributes.chapter.expect("missing chapter number")
+                ),
+                page_count:
+                    object.attributes.pages.try_into().expect("too many pages"),
             }));
             chapters.truncate(total);
 
@@ -95,7 +85,7 @@ impl Chapter {
             .await
             .at_home()
             .server()
-            .chapter_id(&self.id)
+            .chapter_id(self.id)
             .build()
             .context("GetChapter request")?
             .send()
